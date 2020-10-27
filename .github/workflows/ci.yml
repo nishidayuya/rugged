@@ -31,6 +31,7 @@ jobs:
         ruby --version
         gem install bundler
         bundle install --path vendor
+        bash -c 'mkdir ~/.ssh'
         ./script/travisbuild
 
   ubuntu:
