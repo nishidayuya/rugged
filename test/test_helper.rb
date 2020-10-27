@@ -115,7 +115,7 @@ module Rugged
 
       # Delete temp directories that got created
       def self.teardown
-        self.directories.each { |path| FileUtils.remove_entry_secure(path) }
+        self.directories.each { |path| FileUtils.remove_entry_secure(path, true) }
         self.directories.clear
       end
 
