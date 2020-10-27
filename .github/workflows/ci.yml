@@ -63,3 +63,30 @@ jobs:
         gem install bundler
         bundle install --path vendor
         ./script/travisbuild
+
+  windows:
+    strategy:
+      fail-fast: false
+      matrix:
+        #ruby: [ '2.4.9', '2.5.7', '2.6.5', '2.7.0' ]
+        ruby: [ 2.7 ]
+        os: [ windows-latest ]
+    runs-on: ${{ matrix.os }}
+
+    name: Ruby ${{ matrix.ruby }} on ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@master
+    - name: update submodule
+      run: git submodule update --init
+    - name: Install Windows packages
+      run: ./vendor/libgit2/azure-pipelines/setup-mingw.sh
+    - name: Set up Ruby on Windows
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ruby-${{ matrix.ruby }}
+    - name: run build
+      run: |
+        ruby --version
+        gem install bundler
+        bundle install --path vendor
+        bash -x ./script/travisbuild
